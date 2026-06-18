@@ -128,6 +128,26 @@ brand_context/
 - Si les fichiers sont absents, le système retombe sur une version par défaut
   intégrée au code (il fonctionne quand même).
 
+### API de chargement (`core/context_loader.py`)
+
+Si tu écris du code, l'API publique est volontairement simple :
+
+```python
+from maelstrom.core import (
+    load_maelstrom_context,        # contexte marque (toujours)
+    load_transcreation_protocol,   # protocole (transcréation)
+    get_system_prompt,             # prompt système (chaîne) pour un agent
+    get_system_blocks,             # idem, mais avec point de cache (production)
+)
+
+prompt = get_system_prompt("Writer Agent", mode="transcreation")
+```
+
+`load_*` lisent les fichiers Markdown (mise en cache). En production, les agents
+utilisent la variante `get_system_blocks` / `compose_system` qui pose le
+`cache_control` — toutes ces fonctions puisent le texte au **même endroit**
+(`brand_context/*.md`), donc une seule chose à éditer.
+
 ## Faire évoluer le système
 
 - **Brancher tes vrais documents** : remplace le contenu de `brand_context/maelstrom_context.md`
