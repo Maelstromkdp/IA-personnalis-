@@ -35,4 +35,14 @@ Principes directeurs :
 
 
 def transcreation_protocol() -> str:
+    """Protocole de transcréation pour injection (mode transcréation uniquement).
+
+    Source prioritaire : `brand_context/transcreation_protocol.md` (éditable). À
+    défaut, repli sur le contenu intégré ci-dessus.
+    """
+    from .loader import load_context_file
+
+    external = load_context_file("transcreation_protocol.md")
+    if external:
+        return external
     return "# " + PROTOCOL

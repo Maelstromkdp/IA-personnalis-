@@ -108,9 +108,30 @@ pytest        # routage (2 modes) + garde-fous (8 contrôles, SpoilerGuard) — 
 
 ---
 
+## Personnaliser la marque (le plus important)
+
+Tout le contexte de marque vit dans **deux fichiers Markdown éditables** — aucun
+code à toucher :
+
+```
+brand_context/
+├── maelstrom_context.md         ← colle ici tes CONSIGNES PROJET MAELSTRÖM
+└── transcreation_protocol.md    ← colle ici ton PROTOCOLE DE TRANSCRÉATION v2
+```
+
+- Ces fichiers sont **injectés automatiquement** dans chaque agent et **mis en cache**.
+- `maelstrom_context.md` est toujours injecté ; `transcreation_protocol.md` ne l'est
+  qu'en mode transcréation (plus économe).
+- Vérifie qu'ils sont bien pris en compte avec `maelstrom doctor` (il affiche le
+  chemin du fichier chargé).
+- Tu peux pointer ailleurs via `MAELSTROM_CONTEXT_DIR=/chemin/vers/brand_context`.
+- Si les fichiers sont absents, le système retombe sur une version par défaut
+  intégrée au code (il fonctionne quand même).
+
 ## Faire évoluer le système
 
-- **Brancher tes vrais documents** : colle l'intégralité des consignes MAELSTRÖM dans `brand/maelstrom.py` et du Protocole v2 dans `brand/transcreation.py`. Rien d'autre à changer.
+- **Brancher tes vrais documents** : remplace le contenu de `brand_context/maelstrom_context.md`
+  et `brand_context/transcreation_protocol.md` par tes documents complets. Rien d'autre à changer.
 - **Ajuster les 8 contrôles** : édite `QUALITY_TESTS` dans `brand/guardrails.py` (id, libellé, bloquant ou non).
 - **RAG (hameçons + livres précédents)** : implémenter un retriever et l'injecter dans Writer/Editor (`MAELSTROM_RAG_ENABLED=true`).
 - **Ajouter un agent / une étape** : nouveau nœud + prompt, enregistrement dans `graph/build.py`, transition dans `decide_next`.

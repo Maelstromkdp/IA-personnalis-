@@ -93,7 +93,17 @@ quelqu'un qui lira ensuite le livre SANS que rien n'ait été gâché.
 
 
 def brand_bible() -> str:
-    """Concatène la bible de marque pour injection dans les prompts."""
+    """Bible de marque pour injection dans les prompts.
+
+    Source prioritaire : `brand_context/maelstrom_context.md` (éditable). À défaut,
+    repli sur le contenu intégré ci-dessus — le système marche dans tous les cas.
+    """
+    from .loader import load_context_file
+
+    external = load_context_file("maelstrom_context.md")
+    if external:
+        return external
+
     return "\n".join(
         [
             "# BIBLE DE MARQUE — MAELSTRÖM",

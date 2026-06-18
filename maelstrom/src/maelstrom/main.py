@@ -160,6 +160,13 @@ def doctor() -> None:
                   if s.web_search == "tavily" and not os.environ.get("TAVILY_API_KEY") else ""))
     table.add_row("Réécritures max/chapitre", str(s.max_revisions))
     table.add_row("RAG", "activé" if s.rag_enabled else "désactivé")
+
+    from .brand.loader import context_path
+
+    ctx = context_path("maelstrom_context.md")
+    proto = context_path("transcreation_protocol.md")
+    table.add_row("Contexte marque", f"[green]{ctx}[/]" if ctx else "[yellow]intégré au code (défaut)[/]")
+    table.add_row("Protocole transcréation", f"[green]{proto}[/]" if proto else "[yellow]intégré au code (défaut)[/]")
     console.print(table)
     if not key:
         console.print("[red]→ Définis ANTHROPIC_API_KEY (voir .env.example) avant de lancer une production.[/]")
