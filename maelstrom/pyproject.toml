@@ -1,0 +1,36 @@
+[project]
+name = "maelstrom"
+version = "0.1.0"
+description = "MAELSTRÖM — système multi-agents (LangGraph + Claude) pour la production et la transcréation de thrillers psychologiques courts"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.69.0",
+    "langgraph>=0.2.0",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.2",
+    "python-dotenv>=1.0",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+# Backend de recherche web alternatif (le système utilise par défaut le web search
+# natif de Claude, qui ne requiert aucune dépendance supplémentaire).
+tavily = ["tavily-python>=0.5"]
+# RAG futur (banque d'hameçons + livres MAELSTRÖM précédents).
+rag = ["chromadb>=0.5"]
+dev = ["pytest>=8.0", "ruff>=0.5"]
+
+[project.scripts]
+maelstrom = "maelstrom.main:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/maelstrom"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
