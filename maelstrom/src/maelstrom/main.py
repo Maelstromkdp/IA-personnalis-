@@ -205,6 +205,7 @@ def main() -> None:
     pt.add_argument("--out", default=None)
 
     sub.add_parser("doctor", help="Vérifie la configuration.")
+    sub.add_parser("context", help="Affiche les fichiers de contexte de marque chargés.")
     sub.add_parser("wizard", help="Assistant interactif (par défaut si aucune commande).")
 
     args = parser.parse_args()
@@ -213,6 +214,10 @@ def main() -> None:
         wizard()
     elif args.cmd == "doctor":
         doctor()
+    elif args.cmd == "context":
+        from .core import show_context_stats
+
+        show_context_stats()
     elif args.cmd == "create":
         brief: Brief = {
             "mode": "creation",

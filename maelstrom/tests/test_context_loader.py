@@ -5,6 +5,7 @@ from maelstrom.core.context_loader import (
     get_system_prompt,
     load_maelstrom_context,
     load_transcreation_protocol,
+    show_context_stats,
 )
 
 
@@ -27,6 +28,13 @@ def test_creation_prompt_excludes_protocol():
 def test_transcreation_prompt_includes_protocol():
     prompt = get_system_prompt("Writer Agent", mode="transcreation")
     assert "TEST DU NATIF" in prompt.upper()  # protocole injecté
+
+
+def test_show_context_stats(capsys):
+    show_context_stats()
+    out = capsys.readouterr().out
+    assert "Contexte MAELSTRÖM" in out
+    assert "Protocole Transcréation" in out
 
 
 def test_system_blocks_are_cache_aware():

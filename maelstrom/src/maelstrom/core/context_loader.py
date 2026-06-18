@@ -81,3 +81,26 @@ def get_system_blocks(agent_name: str, mode: str = "creation", *, role_prompt: s
     if role_prompt:
         blocks.append({"type": "text", "text": "### RÔLE DE L'AGENT\n" + role_prompt})
     return blocks
+
+
+def show_context_stats() -> None:
+    """Affiche des infos de debug sur les fichiers de contexte réellement chargés.
+
+    Utile pour vérifier d'un coup d'œil que tes documents (et non la version par
+    défaut intégrée) sont bien pris en compte.
+    """
+    from ..brand.loader import context_path
+
+    ctx = load_maelstrom_context()
+    cpath = context_path("maelstrom_context.md")
+    print(
+        f"Contexte MAELSTRÖM : {len(ctx):,} caractères "
+        f"— source : {cpath or 'version intégrée au code (fichier .md absent)'}"
+    )
+
+    ppath = context_path("transcreation_protocol.md")
+    proto = load_transcreation_protocol()
+    print(
+        f"Protocole Transcréation : {len(proto):,} caractères "
+        f"— source : {ppath or 'version intégrée au code (fichier .md absent)'}"
+    )
