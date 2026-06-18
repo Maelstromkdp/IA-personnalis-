@@ -16,6 +16,7 @@ Système **multi-agents** (LangGraph + Claude `claude-opus-4-8`) pour **produire
 | **Qualité > Volume** | L'Editor applique **8 contrôles qualité** ; un échec bloquant renvoie le chapitre au Writer (quota de réécritures par chapitre, puis escalade signalée). |
 | **Création ET transcréation** | `mode` dans le State ; le superviseur route différemment et le Protocole de Transcréation v2 est injecté en mode `transcreation`. |
 | **Communication via State** | Aucun appel direct entre agents : tout passe par `BookState`. |
+| **Performance / coût** | Le contexte de marque (injecté à chaque appel) est **mis en cache** (`cache_control`) → coût et latence fortement réduits, surtout une fois tes documents complets collés dans `brand/`. |
 
 ---
 
@@ -58,17 +59,26 @@ pip install -e ".[dev]"        # + ".[tavily]" ou ".[rag]" si besoin
 cp .env.example .env           # renseigner ANTHROPIC_API_KEY
 ```
 
-## Lancer une création originale
+## Le plus simple : l'assistant
 
 ```bash
+maelstrom            # assistant interactif : il te pose 2-3 questions et produit le livre
+maelstrom doctor     # vérifie que tout est bien configuré (clé API, modèle, etc.)
+```
+
+L'assistant gère création ET transcréation, choisit un dossier de sortie, lance la
+production, puis affiche un récapitulatif clair (titre, mots, contrôles qualité,
+audit anti-spoiler, fichiers produits).
+
+## En ligne de commande (si tu préfères les options)
+
+```bash
+# Création originale
 maelstrom create \
   --seed "Une femme découvre que son mari rentre chaque soir avec 10 minutes de retard inexpliquées" \
   --language FR --words 16000 --out ./output/mon-livre
-```
 
-## Lancer une transcréation FR → EN
-
-```bash
+# Transcréation FR → EN
 maelstrom transcreate ./mon_manuscrit_fr.md --language EN --out ./output/transcrea
 ```
 

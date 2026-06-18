@@ -29,7 +29,7 @@ class LLM:
     def write(
         self,
         *,
-        system: str,
+        system: str | list,
         user: str,
         effort: str | None = None,
         max_tokens: int | None = None,
@@ -52,7 +52,7 @@ class LLM:
     def structured(
         self,
         *,
-        system: str,
+        system: str | list,
         user: str,
         schema: dict[str, Any],
         effort: str | None = None,
@@ -81,7 +81,7 @@ class LLM:
     def research(
         self,
         *,
-        system: str,
+        system: str | list,
         user: str,
         max_uses: int = 6,
         max_continuations: int = 5,
